@@ -1,5 +1,5 @@
+require 'capybara'
+require 'capybara/dsl'
+require "google_hangout/runner"
 require "google_hangout/version"
 
-module GoogleHangout
-  # Your code goes here...
-end
