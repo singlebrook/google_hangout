@@ -2,7 +2,7 @@
 
 require 'google_hangout'
 
-if $1.empty?
+if $1.nil? || $1.empty?
   puts "Usage:"
   puts "google_hangout HANGOUT_URL, [USERNAME], [PASSWORD]"
   exit 1
