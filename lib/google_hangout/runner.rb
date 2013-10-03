@@ -12,6 +12,10 @@ module GoogleHangout
       # Log in if not already logged in
       begin
         find_field('Email')
+        if email.nil? || email.empty? || password.nil? || password.empty?
+          puts "ERROR: You aren't logged in to Google, but you did not supply login credentials."
+          return
+        end
         fill_in 'Email', with: email
         fill_in 'Password', with: password
         click_button 'Sign in'
@@ -28,7 +32,7 @@ module GoogleHangout
 
       # Wait for some input so script doesn't exit
       puts "Press Return to quit"
-      gets
+      STDIN.gets
     end
   end
 end

@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
-
 require 'google_hangout'
 
-if $1.nil? || $1.empty?
+hangout_url, email, password = ARGV[0..2]
+
+if hangout_url.nil? || hangout_url.empty?
   puts "Usage:"
-  puts "google_hangout HANGOUT_URL, [USERNAME], [PASSWORD]"
+  puts "google_hangout HANGOUT_URL, [EMAIL], [PASSWORD]"
   exit 1
 end
 
-GoogleHangout::Runner.new.open($1, $2, $3)
+GoogleHangout::Runner.new.open(hangout_url, email, password)
