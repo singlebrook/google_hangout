@@ -28,11 +28,33 @@ module GoogleHangout
       # Make it full screen
       `osascript -e 'tell application "System Events" to keystroke "f" using {command down, control down}'`
 
-      # TODO: Fire off new thread to poll and check if we've gotten logged out?
+      # Check for various error conditions and get back into the chat if necessary
+      thread = Thread.new(page) do |main_page|
+        while true do
+          if main_page.body.match /Are you still there?/
+            main_page.find('div[role="button"]', :text => 'Yes').click
+          end
+
+          if main_page.body.match /The video call ended because of an error/
+            main_page.find('div[role="button"]', :text => 'Try Again').click
+            main_page.find('div[role="button"]', :text => 'Join').click
+          end
+
+          if main_page.body.match /You left the video call/
+            main_page.visit hangout_url
+            main_page.find('div[role="button"]', :text => 'Join').click
+          end
+
+          sleep 5
+        end
+      end
 
       # Wait for some input so script doesn't exit
       puts "Press Return to quit"
       STDIN.gets
+
+      # Clean up
+      thread.kill
     end
   end
 end
